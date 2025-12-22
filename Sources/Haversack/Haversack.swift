@@ -80,7 +80,7 @@ public struct Haversack {
         configuration.serialQueue.async {
             let result: Result<[T.Entity], Error>
             do {
-                let localQuery = try makeSearchQuery(query, singleItem: true)
+                let localQuery = try makeSearchQuery(query, singleItem: false)
 
                 let entities = try self.configuration.strategy.search(localQuery)
                 result = .success(entities)
