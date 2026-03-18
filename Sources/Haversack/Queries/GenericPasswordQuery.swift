@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright 2023, Jamf
+// Copyright 2026, Jamf
 
 import Foundation
 
@@ -7,7 +7,24 @@ import Foundation
 ///
 /// Successful searches produce ``GenericPasswordEntity`` objects.
 public struct GenericPasswordQuery {
-    public var query: SecurityFrameworkQuery
+    private let queryLock = NSLock()
+    private nonisolated(unsafe) var _query: SecurityFrameworkQuery
+    public var query: SecurityFrameworkQuery {
+        @storageRestrictions(initializes: _query)
+        init {
+            _query = newValue
+        }
+        get {
+            queryLock.withLock {
+                _query
+            }
+        }
+        set {
+            queryLock.withLock {
+                _query = newValue
+            }
+        }
+    }
 
     /// Create a GenericPasswordQuery
     /// - Parameter service: The name of the service associated with the password

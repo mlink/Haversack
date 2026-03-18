@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright 2023, Jamf
+// Copyright 2026, Jamf
 
 import Foundation
 import OrderedCollections
@@ -9,7 +9,24 @@ import OrderedCollections
 /// An identity is a certificate plus a private key.
 /// Successful searches produce ``IdentityEntity`` objects.
 public struct IdentityQuery {
-    public var query: SecurityFrameworkQuery
+    private let queryLock = NSLock()
+    private nonisolated(unsafe) var _query: SecurityFrameworkQuery
+    public var query: SecurityFrameworkQuery {
+        @storageRestrictions(initializes: _query)
+        init {
+            _query = newValue
+        }
+        get {
+            queryLock.withLock {
+                _query
+            }
+        }
+        set {
+            queryLock.withLock {
+                _query = newValue
+            }
+        }
+    }
 
     /// Create an ``IdentityQuery`` instance
     /// - Parameter label: The keychain label of the item.  Uses `kSecAttrLabel`.

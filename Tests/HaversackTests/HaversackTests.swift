@@ -1,23 +1,23 @@
 // SPDX-License-Identifier: MIT
-// Copyright 2023, Jamf
+// Copyright 2026, Jamf
 
 import Foundation
 import Haversack
 import HaversackMock
 import XCTest
 
-final class HaversackTests: XCTestCase {
+final class HaversackTests: XCTestCase, @unchecked Sendable {
     var haversack: Haversack!
     var strategy: HaversackEphemeralStrategy!
 
     private let sampleDomain = "example.com"
     private let sampleEntity: InternetPasswordEntity = {
-        let entity = InternetPasswordEntity()
+        var entity = InternetPasswordEntity()
         entity.server = "example.com"
         return entity
     }()
     private let sampleKey: KeyEntity = {
-        let entity = KeyEntity()
+        var entity = KeyEntity()
         entity.label = "example.com"
         entity.keySizeInBits = 2048
         return entity

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright 2023, Jamf
+// Copyright 2026, Jamf
 
 import Foundation
 import Haversack
@@ -7,7 +7,7 @@ import Haversack
 /// A strategy which uses a simple dictionary to import, export, search, store, and delete data instead of hitting an actual keychain.
 ///
 /// The keys of the ``mockData`` dictionary are calculated from the queries that are sent through Haversack.
-open class HaversackEphemeralStrategy: HaversackStrategy {
+open class HaversackEphemeralStrategy: HaversackStrategy, @unchecked Sendable {
     /// The dictionary that is used for storage of keychain items
     ///
     /// Items can be added into or removed from this dictionary manually.
